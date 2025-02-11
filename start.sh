@@ -1,12 +1,8 @@
 #!/bin/bash
-set -e  # 遇到错误立即停止脚本
+set -e  # 遇到错误立即停止
 
-# 读取环境变量
-if [ -f "/app/config.sh" ]; then
-    source /app/config.sh
-else
-    echo "Warning: /app/config.sh not found!"
-fi
+# 确保 /app 目录存在
+mkdir -p /app
 
 # 启动 SSH 和 Nginx
 echo "Starting SSH and Nginx services..."
@@ -24,6 +20,6 @@ fi
 
 # 启动 ngrok 并在后台运行
 echo "Starting ngrok..."
-nohup ngrok tcp 22 --log=stdout > /app/ngrok.log 2>&1 &
+nohup ngrok tcp 22 > /app/ngrok.log 2>&1 &
 
 echo "All services started successfully!"
